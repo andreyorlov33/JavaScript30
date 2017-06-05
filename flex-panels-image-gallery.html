@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Flex Panel Image Gallery</title>
+</head>
+
+<body>
+    <style>
+        html {
+            box-sizing: border-box;
+            background: #ffc600;
+            font-family: 'he;vetica neue';
+            font-size: 20px;
+            font-weight: 200;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        .panels {
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #6b0f9c;
+            box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+            align-items: center;
+            transition: font-size 0.7s cubic-bezier(.61, -.19, .7, -.11),
+            flex 0.7s cubic-bezier(.61, -.19, .7, -.11),
+            background 0.2s;
+            font-size: 20px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .panel1 {
+            background-image: url('http://bloximages.chicago2.vip.townnews.com/tucson.com/content/tncms/assets/v3/editorial/d/bd/dbd70378-6c34-5577-9a48-02f882dc1493/57bbd72951b6a.image.jpg?resize=1200%2C803')
+        }
+
+        .panel2 {
+            background-image: url('http://www.tubefilter.com/wp-content/uploads/2016/11/morning-video-ads.jpg')
+        }
+
+        .panel3 {
+            background-image: url('https://images.pexels.com/photos/9135/sky-clouds-blue-horizon.jpg?w=940&h=650&auto=compress&cs=tinysrgb')
+        }
+
+        .panel4 {
+            background-image: url('https://rr.img.naver.jp/mig?src=http%3A%2F%2Fimgcc.naver.jp%2Fkaze%2Fmission%2FUSER%2F20151230%2F71%2F7602601%2F29%2F1080x1920x4789858dc32edb9fc5d407.jpg%2F300%2F600&twidth=300&theight=600&qlt=80&res_format=jpg&op=r')
+        }
+
+        .panel5 {
+            background-image: url('http://www.softservenews.com/what-causes-aurora-pics/markuskiili1.jpg');
+        }
+
+        .panel>* {
+            margin: 0;
+            width: 100%;
+            display: flex;
+            transition: transform .5s;
+            flex: 1 0 auto;
+            justify-content: center;
+            align-items: center;
+        }
+        .panel p {
+            text-transform: uppercase;
+            font-family: "Amatic SC", cursive;
+            text-shadow: 0 0 4px rgba(0, 0, 0, .72), 0 0 14px rgba(0, 0, 0, .45);
+            font-size: 2em;
+        }
+        .panel p:nth-child(2){
+            font-size: 4em;
+        }
+
+        .panel > *:first-child {
+            transform: translateY(-100%);
+        }
+
+        .panel.open-active > *:first-child {
+            transform: translateY(0);
+        }
+
+        .panel > *:last-child {
+            transform: translateY(100%);
+        }
+
+        .panel.open-active > *:last-child {
+            transform: translateY(0);
+        }
+
+     
+        .panel.open {
+            flex: 5;
+            font-size: 40px;
+        }
+
+        .cta {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+    <div class="panels">
+        <div class="panel panel1">
+            <p>Hey</p>
+            <p>Let's</p>
+            <p>Dance</p>
+        </div>
+        <div class="panel panel2">
+            <p>Give</p>
+            <p>Take</p>
+            <p>Recieve</p>
+        </div>
+        <div class="panel panel3">
+            <p>Experiance</p>
+            <p>It</p>
+            <p>Today</p>
+        </div>
+        <div class="panel panel4">
+            <p>Give</p>
+            <p>All</p>
+            <p>You</p>
+        </div>
+        <div class="panel panel5">
+            <p>Life</p>
+            <p>In</p>
+            <p>Motion</p>
+        </div>
+    </div>
+</body>
+<script>
+    const panels = document.querySelectorAll('.panel');
+    function toggleOpen() {
+        this.classList.toggle('open');
+    }
+    function toggleActive(e) {
+        console.log(e.propertyName);
+        if (e.propertyName.includes('flex')) {
+            this.classList.toggle('open-active')
+        }
+    }
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+
+</script>
+
+</html>
