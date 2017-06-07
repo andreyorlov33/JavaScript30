@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Type Ahead</title>
+</head>
+<body>
+    <script>
+        // set endpopint for the fetch method 
+        const endpoint = 'https://gist.githubusercontent.com/miserlou/c5cd8364bf9b2420bb29//raw/2fb258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+        // empty array 
+        const cities = [];
+        // dom elements with event listeners 
+        const searchInput = document.querySelector('.search');
+        const suggestions = document.querySelector('.suggestion');
+        searchInput.addEventListener('change', displayMatches);
+        searchInput.addEventListener('keyup', displayMatches);
+        // fetch method 
+        fetch(endpoint)
+        // returns an object with a json method
+        .then(blob=> blob.json())
+        //  return an array and use the spread operator to spread the array into the cities array 
+        .then(data => cities.push(...data))
+
+        // regex function to find matches
+        function findMatches(wordToMatch, citites){
+            return cities.filter(place => {
+                //  set up a regex exp to pass into the match function, since it cannot take in variables 
+                //  first arg is the variable second are the flags , g - global i - indeferent (to uppper or lower case)
+                const regex = new RegExp(wordToMatch, 'gi');
+                //  return if any of the following values match 
+                return place.city.match(regex) || place.state.match(regex)
+            })
+        }
+        //  function to render the matches on the DOM 
+        function displayMatches(){
+        //  returns array with matches values, first arg is the input value , sercond is the citites array 
+           const matchArray = findMatches(this.value, cities);
+        //    standard .map to return a list of elements to the dom 
+           const html = matchArray.map(place =>{
+               const regex = new RegExp( this.value, 'gi');
+            //    following function replaces matches values and highlights them 
+               const cityName = place.city.replace(regex, `<span class='highlight'>${this.value}</span>`);
+               const stateName = place.state.replace(regex, `<span class='highlight'>${this.value}</span>`);
+               return `
+                <li> 
+                    <p>${cityName} ${stateName} ${place.population}</p>
+                </li>
+               `;
+            //    join the array  to return 1 string 
+           }).join('');
+        //    display the inner html in the dom 
+           suggestions.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
